@@ -1,0 +1,6 @@
+{
+  "name": "TULJAI PHATAKA - Billing & Inventory",
+  "description": "Smart point-of-sale billing and inventory management system for TULJAI PHATAKA firecracker store with automated Google Sheets sync and offline resilience.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
