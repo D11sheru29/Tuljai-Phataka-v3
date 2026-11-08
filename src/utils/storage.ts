@@ -34,32 +34,24 @@ function setItemSafe<T>(key: string, value: T): void {
 
 // 1. Items
 export function getStoredItems(): CrackerItem[] {
+  const version = getItemSafe<string>('tp_catalog_version_34', '');
+  if (version !== '34_items_v1') {
+    setItemSafe(KEYS.ITEMS, INITIAL_ITEMS);
+    setItemSafe('tp_catalog_version_34', '34_items_v1');
+    return INITIAL_ITEMS;
+  }
   const items = getItemSafe<CrackerItem[]>(KEYS.ITEMS, []);
   if (!items || items.length === 0) {
     setItemSafe(KEYS.ITEMS, INITIAL_ITEMS);
     return INITIAL_ITEMS;
   }
-  let changed = false;
-  const updatedItems = items.map((item) => {
-    if (item.id === 'item-1') {
-      if (item.name !== '15cm electric Fuljhadi box' || item.category !== 'Fuljhadi' || item.price !== 90) {
-        changed = true;
-        return {
-          ...item,
-          name: '15cm electric Fuljhadi box',
-          category: 'Fuljhadi' as const,
-          price: 90,
-          unit: 'Box',
-        };
-      }
-    }
-    return item;
-  });
-  if (changed) {
-    setItemSafe(KEYS.ITEMS, updatedItems);
-    return updatedItems;
-  }
   return items;
+}
+
+export function resetToDefaultCatalogue(): CrackerItem[] {
+  setItemSafe(KEYS.ITEMS, INITIAL_ITEMS);
+  setItemSafe('tp_catalog_version_34', '34_items_v1');
+  return INITIAL_ITEMS;
 }
 
 export function saveStoredItems(items: CrackerItem[]): void {
