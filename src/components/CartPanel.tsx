@@ -11,11 +11,12 @@ import {
   User,
   X,
 } from 'lucide-react';
-import { CartItem, CrackerItem } from '../types';
+import { CartItem, ComboOffer, CrackerItem } from '../types';
 
 interface CartPanelProps {
   items: CartItem[];
   inventory: CrackerItem[];
+  combos?: ComboOffer[];
   onUpdateQuantity: (itemId: string, newQty: number) => void;
   onRemoveItem: (itemId: string) => void;
   onClearCart: () => void;
@@ -35,6 +36,7 @@ interface CartPanelProps {
 export const CartPanel: React.FC<CartPanelProps> = ({
   items,
   inventory,
+  combos = [],
   onUpdateQuantity,
   onRemoveItem,
   onClearCart,
@@ -70,20 +72,38 @@ export const CartPanel: React.FC<CartPanelProps> = ({
       return;
     }
 
-    // Validate quantities against latest stock in inventory
+    // Validate quantities against latest stock in inventory or combos
     for (const line of items) {
       const invItem = inventory.find((i) => i.id === line.item.id);
-      if (!invItem) {
+      const comboItem = combos.find(
+        (c) =>
+          c.id === line.item.id ||
+          line.item.name === c.name ||
+          line.item.name.includes(c.name) ||
+          c.name.includes(line.item.name)
+      );
+
+      const availableStock = invItem
+        ? invItem.stock
+        : comboItem
+        ? comboItem.stock
+        : typeof line.item.stock === 'number'
+        ? line.item.stock
+        : -1;
+
+      if (!invItem && !comboItem && availableStock < 0) {
         setValidationError(`Item "${line.item.name}" was not found in catalogue.`);
         return;
       }
+
       if (line.quantity < 1) {
         setValidationError(`Quantity for "${line.item.name}" must be at least 1.`);
         return;
       }
-      if (line.quantity > invItem.stock) {
+
+      if (availableStock >= 0 && line.quantity > availableStock) {
         setValidationError(
-          `Quantity for "${line.item.name}" (${line.quantity}) exceeds available stock (${invItem.stock}).`
+          `Quantity for "${line.item.name}" (${line.quantity}) exceeds available stock (${availableStock}).`
         );
         return;
       }
@@ -146,7 +166,9 @@ export const CartPanel: React.FC<CartPanelProps> = ({
         ) : (
           items.map((line) => {
             const currentStock =
-              inventory.find((i) => i.id === line.item.id)?.stock ?? line.item.stock;
+              inventory.find((i) => i.id === line.item.id)?.stock ??
+              combos.find((c) => c.id === line.item.id || line.item.name.includes(c.name))?.stock ??
+              line.item.stock;
             const isAtMaxStock = line.quantity >= currentStock;
 
             return (

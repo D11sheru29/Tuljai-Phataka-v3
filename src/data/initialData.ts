@@ -181,13 +181,13 @@ export const INITIAL_SETTINGS: AppSettings = {
   defaultTaxPercent: 0,
   shopName: 'TULJAI PHATAKA',
   shopTagline: 'Authorized Fireworks & Festive Crackers Wholesale & Retail',
-  shopAddress: 'Main Market Road, Near Tuljabhavani Temple Gate, Solapur Highway',
-  shopPhone: '+91 98765 43210',
-  shopGstin: '27AABCT1234F1Z5',
+  shopAddress: '',
+  shopPhone: '+91 9067766862, +91 9270047802, +91 7219440949, +91 9172184846',
+  shopGstin: '',
   autoSyncIntervalSec: 30,
-  supabaseProjectId: 'ijftsmhpmvcfjynuxogz',
-  supabaseUrl: 'https://ijftsmhpmvcfjynuxogz.supabase.co',
-  supabaseAnonKey: 'sb_publishable_nXL5zwfUjwf_pXXVjErMyQ_PX61KQ1K',
+  supabaseProjectId: 'qmkhqxgmfjuidgxqcznw',
+  supabaseUrl: 'https://qmkhqxgmfjuidgxqcznw.supabase.co',
+  supabaseAnonKey: 'sb_publishable_Zq3Q0ppOizmxF_mVJVfNgw_mnJynokf',
 };
 
 export const INITIAL_COMBOS: ComboOffer[] = [

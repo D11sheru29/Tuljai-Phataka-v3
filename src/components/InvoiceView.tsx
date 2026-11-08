@@ -13,6 +13,7 @@ import {
 import { Bill } from '../types';
 import { sendBillToAppsScript } from '../services/sheetsSync';
 import { saveBillToSupabase } from '../services/supabaseSync';
+import { generateInvoicePdf } from '../utils/generatePdf';
 
 interface InvoiceViewProps {
   bill: Bill;
@@ -33,14 +34,24 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({
   const [isRetryingSync, setIsRetryingSync] = useState(false);
   const [isRetryingSupabase, setIsRetryingSupabase] = useState(false);
   const [syncFeedback, setSyncFeedback] = useState<string | null>(null);
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
 
   const handlePrint = () => {
     window.print();
   };
 
   const handleDownloadPdf = () => {
-    // Triggers native browser print dialog which has "Save as PDF" option pre-selected or easily available
-    window.print();
+    try {
+      setIsGeneratingPdf(true);
+      generateInvoicePdf(bill);
+      setSyncFeedback(`Downloaded ${bill.billNo}.pdf successfully!`);
+      setTimeout(() => setSyncFeedback(null), 3500);
+    } catch (e: any) {
+      console.error('Direct PDF export error, falling back to print dialog', e);
+      window.print();
+    } finally {
+      setIsGeneratingPdf(false);
+    }
   };
 
   const handleManualSyncRetry = async () => {
@@ -214,11 +225,9 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({
               <p className="text-xs font-medium text-slate-600 mt-0.5">
                 Authorized Crackers & Fireworks Wholesale & Retail
               </p>
-              <p className="text-xs text-slate-500 mt-1">
-                Main Market Road, Near Tuljabhavani Temple Gate, Solapur Highway
-              </p>
+              <p className="text-xs text-slate-500 mt-1"></p>
               <p className="text-xs text-slate-500">
-                Phone: +91 98765 43210 · GSTIN: 27AABCT1234F1Z5
+                Phone: +91 9067766862, +91 9270047802, +91 7219440949, +91 9172184846
               </p>
             </div>
 
@@ -353,10 +362,12 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({
             </button>
             <button
               onClick={handleDownloadPdf}
-              className="flex items-center gap-1.5 px-3.5 py-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 font-semibold text-xs sm:text-sm rounded-xl transition-colors active:scale-95 shadow-sm"
+              disabled={isGeneratingPdf}
+              className="flex items-center gap-1.5 px-3.5 py-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 font-semibold text-xs sm:text-sm rounded-xl transition-colors active:scale-95 shadow-sm disabled:opacity-60 cursor-pointer"
+              title="Download bill directly as a PDF file"
             >
-              <Download className="w-4 h-4 text-orange-600" />
-              <span>Download as PDF</span>
+              <Download className={`w-4 h-4 text-orange-600 ${isGeneratingPdf ? 'animate-bounce' : ''}`} />
+              <span>{isGeneratingPdf ? 'Generating PDF...' : 'Download as PDF'}</span>
             </button>
           </div>
 

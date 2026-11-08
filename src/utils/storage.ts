@@ -265,9 +265,12 @@ export function getStoredSettings(): AppSettings {
   return {
     ...INITIAL_SETTINGS,
     ...settings,
-    supabaseProjectId: settings.supabaseProjectId || INITIAL_SETTINGS.supabaseProjectId,
-    supabaseUrl: settings.supabaseUrl || INITIAL_SETTINGS.supabaseUrl,
-    supabaseAnonKey: settings.supabaseAnonKey || INITIAL_SETTINGS.supabaseAnonKey,
+    shopAddress: settings.shopAddress === 'Main Market Road, Near Tuljabhavani Temple Gate, Solapur Highway' ? '' : (settings.shopAddress || ''),
+    shopPhone: settings.shopPhone === '+91 98765 43210' ? '+91 9067766862, +91 9270047802, +91 7219440949, +91 9172184846' : (settings.shopPhone || '+91 9067766862, +91 9270047802, +91 7219440949, +91 9172184846'),
+    shopGstin: settings.shopGstin === '27AABCT1234F1Z5' ? '' : (settings.shopGstin || ''),
+    supabaseProjectId: (settings.supabaseProjectId === 'ijftsmhpmvcfjynuxogz' || !settings.supabaseProjectId) ? INITIAL_SETTINGS.supabaseProjectId : settings.supabaseProjectId,
+    supabaseUrl: (settings.supabaseUrl === 'https://ijftsmhpmvcfjynuxogz.supabase.co' || !settings.supabaseUrl) ? INITIAL_SETTINGS.supabaseUrl : settings.supabaseUrl,
+    supabaseAnonKey: (settings.supabaseAnonKey === 'sb_publishable_nXL5zwfUjwf_pXXVjErMyQ_PX61KQ1K' || !settings.supabaseAnonKey) ? INITIAL_SETTINGS.supabaseAnonKey : settings.supabaseAnonKey,
   };
 }
 

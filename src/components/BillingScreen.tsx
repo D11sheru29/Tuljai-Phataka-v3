@@ -401,6 +401,7 @@ export const BillingScreen: React.FC<BillingScreenProps> = ({
         <CartPanel
           items={cart}
           inventory={items}
+          combos={combos}
           onUpdateQuantity={onUpdateCartQty}
           onRemoveItem={onRemoveCartItem}
           onClearCart={onClearCart}
@@ -416,6 +417,7 @@ export const BillingScreen: React.FC<BillingScreenProps> = ({
         <CartPanel
           items={cart}
           inventory={items}
+          combos={combos}
           onUpdateQuantity={onUpdateCartQty}
           onRemoveItem={onRemoveCartItem}
           onClearCart={onClearCart}

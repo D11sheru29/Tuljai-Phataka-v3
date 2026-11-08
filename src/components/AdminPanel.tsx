@@ -1525,7 +1525,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                       type="text"
                       value={supabaseProjectIdInput}
                       onChange={(e) => setSupabaseProjectIdInput(e.target.value)}
-                      placeholder="e.g. ijftsmhpmvcfjynuxogz"
+                      placeholder="e.g. qmkhqxgmfjuidgxqcznw"
                       className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 text-xs font-mono focus:outline-none focus:border-emerald-500 focus:bg-white"
                     />
                   </div>

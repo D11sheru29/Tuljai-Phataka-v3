@@ -24,6 +24,7 @@ import { Bill, SyncStatus } from '../types';
 import { processRetryQueue, sendBillToAppsScript } from '../services/sheetsSync';
 import { saveBillToSupabase, syncAllPendingSupabaseBills } from '../services/supabaseSync';
 import { deleteStoredBill } from '../utils/storage';
+import { generateInvoicePdf } from '../utils/generatePdf';
 
 
 interface OrderHistoryProps {
@@ -523,6 +524,18 @@ export const OrderHistory: React.FC<OrderHistoryProps> = ({
                         >
                           <Eye className="w-3.5 h-3.5 text-orange-600" />
                           <span>View Bill</span>
+                        </button>
+
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            generateInvoicePdf(bill);
+                          }}
+                          className="flex items-center gap-1 px-2.5 py-1.5 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-xl border border-slate-200 transition-colors shadow-sm"
+                          title="Download PDF directly"
+                        >
+                          <Download className="w-3.5 h-3.5 text-orange-600" />
+                          <span className="hidden sm:inline">PDF</span>
                         </button>
 
                         <button

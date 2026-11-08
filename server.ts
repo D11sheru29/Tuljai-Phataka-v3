@@ -28,9 +28,9 @@ async function startServer() {
   app.post('/api/supabase/test-connection', async (req, res) => {
     try {
       const { url, anonKey, projectId } = req.body;
-      const targetUrl = (url || 'https://ijftsmhpmvcfjynuxogz.supabase.co').trim();
-      const targetKey = (anonKey || 'sb_publishable_nXL5zwfUjwf_pXXVjErMyQ_PX61KQ1K').trim();
-      const targetProject = (projectId || 'ijftsmhpmvcfjynuxogz').trim();
+      const targetUrl = (url || 'https://qmkhqxgmfjuidgxqcznw.supabase.co').trim();
+      const targetKey = (anonKey || 'sb_publishable_Zq3Q0ppOizmxF_mVJVfNgw_mnJynokf').trim();
+      const targetProject = (projectId || 'qmkhqxgmfjuidgxqcznw').trim();
 
       const client = createClient(targetUrl, targetKey);
       const { data: _data, error } = await client.from('bills').select('bill_no').limit(1);
@@ -79,8 +79,8 @@ async function startServer() {
         });
       }
 
-      const targetUrl = (config?.url || 'https://ijftsmhpmvcfjynuxogz.supabase.co').trim();
-      const targetKey = (config?.anonKey || 'sb_publishable_nXL5zwfUjwf_pXXVjErMyQ_PX61KQ1K').trim();
+      const targetUrl = (config?.url || 'https://qmkhqxgmfjuidgxqcznw.supabase.co').trim();
+      const targetKey = (config?.anonKey || 'sb_publishable_Zq3Q0ppOizmxF_mVJVfNgw_mnJynokf').trim();
 
       const client = createClient(targetUrl, targetKey);
 
